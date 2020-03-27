@@ -8,12 +8,12 @@
 
 import UIKit
 
+// TODO: Açıklma(English)
 class MoviesVC: UIViewController {
-//filmler olacak
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
     }
     
 
