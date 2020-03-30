@@ -7,13 +7,13 @@
 //
 
 import UIKit
-
+import SnapKit
 // TODO: Açıklma(English)
 class MoviesVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
     }
     
 
