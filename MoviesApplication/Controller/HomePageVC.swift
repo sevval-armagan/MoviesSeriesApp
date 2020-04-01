@@ -11,6 +11,25 @@ import SnapKit
 
 class HomePageVC: UIViewController {
     
+    lazy var trendsViewModel: TrendsViewModel = {
+        let trendsVM = TrendsViewModel()
+        trendsVM.delegate = self
+        return trendsVM
+
+    }()
+    lazy var peoplesViewModel: PeoplesViewModel = {
+        let peoplesVM = PeoplesViewModel()
+        peoplesVM.delegate = self
+        return peoplesVM
+
+    }()
+    
+    lazy var genresViewModel: GenresViewModel = {
+        let genresVM = GenresViewModel()
+        genresVM.delegate = self
+        return genresVM
+
+    }()
     
     let scrollView = UIScrollView()
     func setScrollView(){
@@ -36,8 +55,8 @@ class HomePageVC: UIViewController {
         }
     }
     
-    //CollectionView
-    fileprivate let collectionView : UICollectionView = {
+    //moviesCollectionView
+    fileprivate let moviewCollectionView : UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         let movieCView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -47,17 +66,43 @@ class HomePageVC: UIViewController {
     }()
     
     func setupDelegate(){
-        collectionView.delegate = self
-        collectionView.dataSource = self
+        moviewCollectionView.delegate = self
+        moviewCollectionView.dataSource = self
+        peoplesCollectionView.delegate = self
+        peoplesCollectionView.dataSource = self
+        genresCollectionView.delegate = self
+        genresCollectionView.dataSource = self
     }
+    
+    //PeopleCollectionView
+    fileprivate let peoplesCollectionView : UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        let peopleCView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        peopleCView.translatesAutoresizingMaskIntoConstraints = false
+        peopleCView.register(PeoplesCollectionViewCell.self, forCellWithReuseIdentifier: "peopleCell")
+        return peopleCView
+    }()
+    
+    //GenresCollectionView
+    fileprivate let genresCollectionView : UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        let genresCView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        genresCView.translatesAutoresizingMaskIntoConstraints = false
+        genresCView.register(GenresCollectionViewCell.self, forCellWithReuseIdentifier: "genresCell")
+        return genresCView
+    }()
+    
 
     let trendsLabel = UILabel()
     let peopleLabel = UILabel()
+    let genresLabel = UILabel()
     
     func setTrendsLabel() {
         container.addSubview(trendsLabel)
         trendsLabel.snp.makeConstraints { (make) -> Void  in
-                   trendsLabel.text = "Trendler"
+                   trendsLabel.text = "Trends"
                    trendsLabel.textColor = .white
                    make.height.equalTo(45)
                    make.top.equalTo(container).offset(10)
@@ -72,19 +117,50 @@ class HomePageVC: UIViewController {
                    peopleLabel.textColor = .white
                    make.width.equalTo(container)
                    make.height.equalTo(45)
-                   make.topMargin.equalTo(collectionView.snp.bottom).offset(10)
+                   make.topMargin.equalTo(moviewCollectionView.snp.bottom).offset(10)
                }
-}
+    }
+    
+    func setGenresLabel(){
+           container.addSubview(genresLabel)
+           genresLabel.snp.makeConstraints { (make) -> Void in
+                      genresLabel.text = "Genres"
+                      genresLabel.textColor = .white
+                      make.width.equalTo(container)
+                      make.height.equalTo(45)
+                      make.topMargin.equalTo(peoplesCollectionView.snp.bottom).offset(10)
+                  }
+       }
     func setMoviesCollectionView(){
-        container.addSubview(collectionView)
-        collectionView.backgroundColor = .yellow
-            collectionView.snp.makeConstraints { (make) -> Void in
+        container.addSubview(moviewCollectionView)
+        moviewCollectionView.backgroundColor = .yellow
+            moviewCollectionView.snp.makeConstraints { (make) -> Void in
                 make.width.equalTo(container)
                 make.top.equalTo(trendsLabel.snp.bottom)
                 make.height.equalTo(220)
             }
         }
-
+    
+    func setPeoplesCollectionView(){
+        container.addSubview(peoplesCollectionView)
+        peoplesCollectionView.backgroundColor = .yellow
+            peoplesCollectionView.snp.makeConstraints { (make) -> Void in
+                make.width.equalTo(container)
+                make.top.equalTo(peopleLabel.snp.bottom)
+                make.height.equalTo(220)
+            }
+        
+    }
+    func setGenresCollectionView(){
+        container.addSubview(genresCollectionView)
+        genresCollectionView.backgroundColor = .yellow
+            genresCollectionView.snp.makeConstraints { (make) -> Void in
+                make.width.equalTo(container)
+                make.top.equalTo(genresLabel.snp.bottom)
+                make.height.equalTo(220)
+            }
+        
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         setScrollView()
@@ -93,36 +169,96 @@ class HomePageVC: UIViewController {
         setTrendsLabel()
         setMoviesCollectionView()
         setPeoplesLabel()
+        setPeoplesCollectionView()
+        setGenresLabel()
+        setGenresCollectionView()
+        
+        self.trendsViewModel.getData()
+        self.peoplesViewModel.getData()
+        self.genresViewModel.getData()
         
     }
     
     
 }
 
-
+//moviesCollecitonView viewmodel deki protocol sınıfa uyarlanması yani parse işlemi tamamlandığında reolad yap.
+extension HomePageVC: TrendsViewModelDelegate,PeoplesViewModelDelegate,GenresViewModelDelegate{
+    func requestCompleted() {
+        DispatchQueue.main.async {
+            self.moviewCollectionView.reloadData()
+            self.peoplesCollectionView.reloadData()
+            self.genresCollectionView.reloadData()
+        }
+    }
+}
 
 //Collection View Extensions
 extension HomePageVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        if(collectionView == moviewCollectionView){
+            return 10
+        }
+        else if(collectionView == peoplesCollectionView)
+        {
+            return 10
+        }
+        else{
+            return 10
+        }
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "movieCell", for: indexPath) as! MoviesCollectionViewCell
-        cell.label.text = "sevval"
-        cell.backgroundColor = .green
-        cell.image.image = UIImage(named: "homePage")
-        return cell
+        if(collectionView == moviewCollectionView){
+            let moviesCell = collectionView.dequeueReusableCell(withReuseIdentifier: "movieCell", for: indexPath) as! MoviesCollectionViewCell
+            moviesCell.backgroundColor = .green
+            moviesCell.posterImage.image = UIImage(named: "homePage")
+            return moviesCell
+        }
+        else if(collectionView == peoplesCollectionView)
+        {
+            let peopleCell = collectionView.dequeueReusableCell(withReuseIdentifier: "peopleCell", for: indexPath) as! PeoplesCollectionViewCell
+            peopleCell.peopleNameLabel.text = "sevval"
+            peopleCell.backgroundColor = .green
+            peopleCell.peopleImage.image = UIImage(named: "homePage")
+            return peopleCell
+            
+        }
+        else{
+            let genresCell = collectionView.dequeueReusableCell(withReuseIdentifier: "genresCell", for: indexPath) as! GenresCollectionViewCell
+            return genresCell
+        }
     }
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width/2.5, height: collectionView.frame.width/2)
+        if(collectionView == moviewCollectionView){
+             return CGSize(width: collectionView.frame.width/2.5, height: collectionView.frame.width/2)
+        }
+        else if(collectionView == peoplesCollectionView)
+               {
+                return CGSize(width: collectionView.frame.width/2.5, height: collectionView.frame.width/2)
+        }
+        else{
+            return CGSize(width: collectionView.frame.width/2.5, height: collectionView.frame.width/2)
+        }
+       
     }
     
     //TODO: Cell'lerin kenarlara olan uzaklıkları
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3)
+        if(collectionView == moviewCollectionView){
+             return UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3)
+        }
+       else if(collectionView == peoplesCollectionView)
+        {
+            return UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3)
+            
+        }
+        else{
+            return UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3)
+        }
     }
     
 }
