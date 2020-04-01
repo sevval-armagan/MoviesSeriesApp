@@ -7,7 +7,8 @@
 //
 
 import Foundation
-import Alamofire
+import UIKit
+
 
 protocol TrendsViewModelDelegate{
     func requestCompleted()
@@ -15,18 +16,25 @@ protocol TrendsViewModelDelegate{
 
 class TrendsViewModel{
     var array = [TrendsModel]()
-     var delegate: TrendsViewModelDelegate?
+    var delegate: TrendsViewModelDelegate?
 }
 
 
+var array = [String]()
 
 extension TrendsViewModel{
     func getData(){
-        // parse işlemleri yapılacak
-        AF.request("https://api.themoviedb.org/3/trending/all/day?api_key=1218591a465b03f80cfebb0ef37a2275").response{ response in
-           // debugPrint(response)
-            
+
+        var request = URLRequest(url: URL(string: "https://api.themoviedb.org/3/trending/movie/day?api_key=1218591a465b03f80cfebb0ef37a2275")!)
+        request.httpMethod = "GET"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        let data = try? Data(contentsOf: request.url!)
+        
+        do {
+            let json = try? JSONDecoder().decode(TrendsModel.self, from: data!)
+            array.append(json!)
         }
         self.delegate?.requestCompleted()
     }
 }
+

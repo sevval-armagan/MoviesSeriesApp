@@ -23,6 +23,7 @@ class PeoplesCollectionViewCell: UICollectionViewCell {
     let peopleNameLabel : UILabel = {
         let label = UILabel()
         label.text = "asdasd"
+        label.textColor = UIColor.brown
         return label
     }()
     
@@ -31,7 +32,6 @@ class PeoplesCollectionViewCell: UICollectionViewCell {
         peopleNameLabel.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview()
-            
         }
     }
     
@@ -48,7 +48,6 @@ class PeoplesCollectionViewCell: UICollectionViewCell {
             make.centerY.equalToSuperview()
             make.height.equalToSuperview()
             make.width.equalToSuperview()
-            
         }
     }
     

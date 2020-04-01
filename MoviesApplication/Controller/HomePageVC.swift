@@ -98,7 +98,7 @@ class HomePageVC: UIViewController {
     let trendsLabel = UILabel()
     let peopleLabel = UILabel()
     let genresLabel = UILabel()
-    
+    var array22 : [String] = []
     func setTrendsLabel() {
         container.addSubview(trendsLabel)
         trendsLabel.snp.makeConstraints { (make) -> Void  in
@@ -187,17 +187,16 @@ extension HomePageVC: TrendsViewModelDelegate,PeoplesViewModelDelegate,GenresVie
     func requestCompleted() {
         DispatchQueue.main.async {
             self.moviewCollectionView.reloadData()
-            self.peoplesCollectionView.reloadData()
-            self.genresCollectionView.reloadData()
         }
     }
+    
 }
 
 //Collection View Extensions
 extension HomePageVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if(collectionView == moviewCollectionView){
-            return 10
+            return trendsViewModel.array[0].results.count
         }
         else if(collectionView == peoplesCollectionView)
         {
@@ -208,12 +207,22 @@ extension HomePageVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSo
         }
         
     }
-    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if(collectionView == moviewCollectionView){
             let moviesCell = collectionView.dequeueReusableCell(withReuseIdentifier: "movieCell", for: indexPath) as! MoviesCollectionViewCell
             moviesCell.backgroundColor = .green
-            moviesCell.posterImage.image = UIImage(named: "homePage")
+          let url = URL(string: "https://image.tmdb.org/t/p/original" + trendsViewModel.array[0].results[indexPath.row].poster_path!)
+                     URLSession.shared.dataTask(with: url!){
+                         (data,response,error) in
+                         if error != nil{
+                             print("error")
+                             return
+                         }
+                         DispatchQueue.main.async {
+                            moviesCell.posterImage.image = UIImage(data : data!)
+                         }
+                     }.resume()
+           // moviesCell.posterImage.image = UIImage(named: "https://image.tmdb.org/t/p/original" + trendsViewModel.array[0].results[indexPath.row].poster_path!)
             return moviesCell
         }
         else if(collectionView == peoplesCollectionView)
@@ -221,7 +230,7 @@ extension HomePageVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSo
             let peopleCell = collectionView.dequeueReusableCell(withReuseIdentifier: "peopleCell", for: indexPath) as! PeoplesCollectionViewCell
             peopleCell.peopleNameLabel.text = "sevval"
             peopleCell.backgroundColor = .green
-            peopleCell.peopleImage.image = UIImage(named: "homePage")
+            peopleCell.peopleImage.image = UIImage(named: "HomePage")
             return peopleCell
             
         }

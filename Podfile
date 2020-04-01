@@ -3,7 +3,7 @@
 
 target 'MoviesApplication' do
   pod 'SnapKit', '~> 5.0.0'
-  pod 'Alamofire', '~> 5.0'
+  
 
   # Pods for MoviesApplication
 

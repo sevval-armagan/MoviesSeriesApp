@@ -10,13 +10,13 @@ import Foundation
 
 struct TrendsModel : Codable {
 let page : Int?
-let results : [Results]?
+let results : [Results]!
 let total_pages : Int?
 let total_results : Int?
 }
 
 struct Results : Codable {
-let id : Int?
+let id : Int!
 let video : Bool?
 let vote_count : Int?
 let vote_average : Double?
