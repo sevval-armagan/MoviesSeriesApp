@@ -15,20 +15,20 @@ class HomePageVC: UIViewController {
         let trendsVM = TrendsViewModel()
         trendsVM.delegate = self
         return trendsVM
-
+        
     }()
     lazy var peoplesViewModel: PeoplesViewModel = {
         let peoplesVM = PeoplesViewModel()
         peoplesVM.delegate = self
         return peoplesVM
-
+        
     }()
     
     lazy var genresViewModel: GenresViewModel = {
         let genresVM = GenresViewModel()
         genresVM.delegate = self
         return genresVM
-
+        
     }()
     
     let scrollView = UIScrollView()
@@ -94,71 +94,71 @@ class HomePageVC: UIViewController {
         return genresCView
     }()
     
-
+    
     let trendsLabel = UILabel()
     let peopleLabel = UILabel()
     let genresLabel = UILabel()
-    var array22 : [String] = []
+   
     func setTrendsLabel() {
         container.addSubview(trendsLabel)
         trendsLabel.snp.makeConstraints { (make) -> Void  in
-                   trendsLabel.text = "Trends"
-                   trendsLabel.textColor = .white
-                   make.height.equalTo(45)
-                   make.top.equalTo(container).offset(10)
-                   make.leading.equalTo(container).offset(10)
-                   make.trailing.equalTo(container).offset(-10)
-               }
+            trendsLabel.text = "Trends"
+            trendsLabel.textColor = .white
+            make.height.equalTo(45)
+            make.top.equalTo(container).offset(10)
+            make.leading.equalTo(container).offset(10)
+            make.trailing.equalTo(container).offset(-10)
         }
+    }
     func setPeoplesLabel(){
         container.addSubview(peopleLabel)
         peopleLabel.snp.makeConstraints { (make) -> Void in
-                   peopleLabel.text = "Popular People"
-                   peopleLabel.textColor = .white
-                   make.width.equalTo(container)
-                   make.height.equalTo(45)
-                   make.topMargin.equalTo(moviewCollectionView.snp.bottom).offset(10)
-               }
+            peopleLabel.text = "Popular People"
+            peopleLabel.textColor = .white
+            make.width.equalTo(container)
+            make.height.equalTo(45)
+            make.topMargin.equalTo(moviewCollectionView.snp.bottom).offset(10)
+        }
     }
     
     func setGenresLabel(){
-           container.addSubview(genresLabel)
-           genresLabel.snp.makeConstraints { (make) -> Void in
-                      genresLabel.text = "Genres"
-                      genresLabel.textColor = .white
-                      make.width.equalTo(container)
-                      make.height.equalTo(45)
-                      make.topMargin.equalTo(peoplesCollectionView.snp.bottom).offset(10)
-                  }
-       }
+        container.addSubview(genresLabel)
+        genresLabel.snp.makeConstraints { (make) -> Void in
+            genresLabel.text = "Genres"
+            genresLabel.textColor = .white
+            make.width.equalTo(container)
+            make.height.equalTo(45)
+            make.topMargin.equalTo(peoplesCollectionView.snp.bottom).offset(10)
+        }
+    }
     func setMoviesCollectionView(){
         container.addSubview(moviewCollectionView)
         moviewCollectionView.backgroundColor = .yellow
-            moviewCollectionView.snp.makeConstraints { (make) -> Void in
-                make.width.equalTo(container)
-                make.top.equalTo(trendsLabel.snp.bottom)
-                make.height.equalTo(220)
-            }
+        moviewCollectionView.snp.makeConstraints { (make) -> Void in
+            make.width.equalTo(container)
+            make.top.equalTo(trendsLabel.snp.bottom)
+            make.height.equalTo(220)
         }
+    }
     
     func setPeoplesCollectionView(){
         container.addSubview(peoplesCollectionView)
         peoplesCollectionView.backgroundColor = .yellow
-            peoplesCollectionView.snp.makeConstraints { (make) -> Void in
-                make.width.equalTo(container)
-                make.top.equalTo(peopleLabel.snp.bottom)
-                make.height.equalTo(220)
-            }
+        peoplesCollectionView.snp.makeConstraints { (make) -> Void in
+            make.width.equalTo(container)
+            make.top.equalTo(peopleLabel.snp.bottom)
+            make.height.equalTo(220)
+        }
         
     }
     func setGenresCollectionView(){
         container.addSubview(genresCollectionView)
         genresCollectionView.backgroundColor = .yellow
-            genresCollectionView.snp.makeConstraints { (make) -> Void in
-                make.width.equalTo(container)
-                make.top.equalTo(genresLabel.snp.bottom)
-                make.height.equalTo(220)
-            }
+        genresCollectionView.snp.makeConstraints { (make) -> Void in
+            make.width.equalTo(container)
+            make.top.equalTo(genresLabel.snp.bottom)
+            make.height.equalTo(220)
+        }
         
     }
     override func viewDidLoad() {
@@ -187,6 +187,7 @@ extension HomePageVC: TrendsViewModelDelegate,PeoplesViewModelDelegate,GenresVie
     func requestCompleted() {
         DispatchQueue.main.async {
             self.moviewCollectionView.reloadData()
+            self.peoplesCollectionView.reloadData()
         }
     }
     
@@ -200,7 +201,7 @@ extension HomePageVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSo
         }
         else if(collectionView == peoplesCollectionView)
         {
-            return 10
+            return peoplesViewModel.array[0].results!.count
         }
         else{
             return 10
@@ -211,26 +212,35 @@ extension HomePageVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSo
         if(collectionView == moviewCollectionView){
             let moviesCell = collectionView.dequeueReusableCell(withReuseIdentifier: "movieCell", for: indexPath) as! MoviesCollectionViewCell
             moviesCell.backgroundColor = .green
-          let url = URL(string: "https://image.tmdb.org/t/p/original" + trendsViewModel.array[0].results[indexPath.row].poster_path!)
-                     URLSession.shared.dataTask(with: url!){
-                         (data,response,error) in
-                         if error != nil{
-                             print("error")
-                             return
-                         }
-                         DispatchQueue.main.async {
-                            moviesCell.posterImage.image = UIImage(data : data!)
-                         }
-                     }.resume()
-           // moviesCell.posterImage.image = UIImage(named: "https://image.tmdb.org/t/p/original" + trendsViewModel.array[0].results[indexPath.row].poster_path!)
+            let url = URL(string: "https://image.tmdb.org/t/p/original" + trendsViewModel.array[0].results[indexPath.row].poster_path!)
+            URLSession.shared.dataTask(with: url!){
+                (data,response,error) in
+                if error != nil{
+                    print("error")
+                    return
+                }
+                DispatchQueue.main.async {
+                    moviesCell.posterImage.image = UIImage(data : data!)
+                }
+            }.resume()
             return moviesCell
         }
         else if(collectionView == peoplesCollectionView)
         {
             let peopleCell = collectionView.dequeueReusableCell(withReuseIdentifier: "peopleCell", for: indexPath) as! PeoplesCollectionViewCell
-            peopleCell.peopleNameLabel.text = "sevval"
-            peopleCell.backgroundColor = .green
-            peopleCell.peopleImage.image = UIImage(named: "HomePage")
+            
+            let url = URL(string: "https://image.tmdb.org/t/p/original" + peoplesViewModel.array[0].results![indexPath.row].profile_path!)
+            URLSession.shared.dataTask(with: url!){
+                (data,response,error) in
+                if error != nil{
+                    print("error")
+                    return
+                }
+                DispatchQueue.main.async {
+                    peopleCell.peopleImage.image = UIImage(data: data!)
+                }
+            }.resume()
+ 
             return peopleCell
             
         }
@@ -243,24 +253,24 @@ extension HomePageVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if(collectionView == moviewCollectionView){
-             return CGSize(width: collectionView.frame.width/2.5, height: collectionView.frame.width/2)
+            return CGSize(width: collectionView.frame.width/2.5, height: collectionView.frame.width/2)
         }
         else if(collectionView == peoplesCollectionView)
-               {
-                return CGSize(width: collectionView.frame.width/2.5, height: collectionView.frame.width/2)
+        {
+            return CGSize(width: collectionView.frame.width/2.5, height: collectionView.frame.width/2)
         }
         else{
             return CGSize(width: collectionView.frame.width/2.5, height: collectionView.frame.width/2)
         }
-       
+        
     }
     
     //TODO: Cell'lerin kenarlara olan uzaklıkları
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         if(collectionView == moviewCollectionView){
-             return UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3)
+            return UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3)
         }
-       else if(collectionView == peoplesCollectionView)
+        else if(collectionView == peoplesCollectionView)
         {
             return UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3)
             

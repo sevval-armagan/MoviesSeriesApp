@@ -35,6 +35,11 @@ extension TrendsViewModel{
             array.append(json!)
         }
         self.delegate?.requestCompleted()
+ 
+       
+        
     }
+ 
 }
+
 
