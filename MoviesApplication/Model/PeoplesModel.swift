@@ -9,39 +9,32 @@
 import Foundation
 
 struct PeoplesModel : Codable {
+   let results : [ResultsPeople]?
     let page : Int?
-    let results : [PeopleResults]?
-    let total_pages : Int?
     let total_results : Int?
+    let dates : Dates?
+    let total_pages : Int?
 }
 
-struct Known_for : Codable {
-    var adult : Bool?
-    var backdrop_path : String?
-    var first_air_date : String?
-    var genre_ids : [Int]?
-    var id : Int?
-    var media_type : String?
-    var name : String?
-    var origin_country : [String?]?
-    var original_language : String?
-    var original_title : String?
-    var overview : String?
-    var poster_path : String?
-    var releaseDate : String?
-    var title : String?
-    var video : Bool?
-    var vote_average : Double?
-    var vote_count : Int?
-}
-
-struct PeopleResults : Codable {
-    let adult : Bool?
-    let gender : Int?
+struct ResultsPeople : Codable {
+   let popularity : Double?
+    let vote_count : Int?
+    let video : Bool?
+    let poster_path : String?
     let id : Int?
-    var known_for : [Known_for]?
-    let known_for_department : String?
-    let name : String?
-    let popularity : Float?
-    let profile_path : String?
+    let adult : Bool?
+    let backdrop_path : String?
+    let original_language : String?
+    let original_title : String?
+    let genre_ids : [Int]?
+    let title : String?
+    let vote_average : Double?
+    let overview : String?
+    let release_date : String?
+
+}
+
+struct Dates : Codable {
+   let maximum : String?
+    let minimum : String?
 }

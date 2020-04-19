@@ -98,7 +98,7 @@ class HomePageVC: UIViewController {
     let trendsLabel = UILabel()
     let peopleLabel = UILabel()
     let genresLabel = UILabel()
-   
+    
     func setTrendsLabel() {
         container.addSubview(trendsLabel)
         trendsLabel.snp.makeConstraints { (make) -> Void  in
@@ -137,7 +137,7 @@ class HomePageVC: UIViewController {
         moviewCollectionView.snp.makeConstraints { (make) -> Void in
             make.width.equalTo(container)
             make.top.equalTo(trendsLabel.snp.bottom)
-            make.height.equalTo(220)
+            make.height.equalTo(430)
         }
     }
     
@@ -174,7 +174,7 @@ class HomePageVC: UIViewController {
         setGenresCollectionView()
         
         self.trendsViewModel.getData()
-        self.peoplesViewModel.getData()
+        self.peoplesViewModel.getData22()
         self.genresViewModel.getData()
         
     }
@@ -182,12 +182,19 @@ class HomePageVC: UIViewController {
     
 }
 
-//moviesCollecitonView viewmodel deki protocol sınıfa uyarlanması yani parse işlemi tamamlandığında reolad yap.
+//moviesCollecitonView viewmodel deki protocol sınıfa uyarlanması yani parse işlemi tamamlandığında reload yap.
 extension HomePageVC: TrendsViewModelDelegate,PeoplesViewModelDelegate,GenresViewModelDelegate{
+    func requestCompleted2() {
+        DispatchQueue.main.async {
+            self.peoplesCollectionView.reloadData()
+        }
+    }
+    
+    
+    
     func requestCompleted() {
         DispatchQueue.main.async {
-            self.moviewCollectionView.reloadData()
-            self.peoplesCollectionView.reloadData()
+            self.moviewCollectionView.reloadData() 
         }
     }
     
@@ -201,7 +208,7 @@ extension HomePageVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSo
         }
         else if(collectionView == peoplesCollectionView)
         {
-            return peoplesViewModel.array[0].results!.count
+            return 10//peoplesViewModel.array[0].results!.count
         }
         else{
             return 10
@@ -229,7 +236,7 @@ extension HomePageVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSo
         {
             let peopleCell = collectionView.dequeueReusableCell(withReuseIdentifier: "peopleCell", for: indexPath) as! PeoplesCollectionViewCell
             
-            let url = URL(string: "https://image.tmdb.org/t/p/original" + peoplesViewModel.array[0].results![indexPath.row].profile_path!)
+          /*  let url = URL(string: "https://image.tmdb.org/t/p/original" + peoplesViewModel.array[0].results![indexPath.row].poster_path!)
             URLSession.shared.dataTask(with: url!){
                 (data,response,error) in
                 if error != nil{
@@ -239,8 +246,8 @@ extension HomePageVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSo
                 DispatchQueue.main.async {
                     peopleCell.peopleImage.image = UIImage(data: data!)
                 }
-            }.resume()
- 
+            }.resume()*/
+            
             return peopleCell
             
         }
@@ -253,7 +260,7 @@ extension HomePageVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if(collectionView == moviewCollectionView){
-            return CGSize(width: collectionView.frame.width/2.5, height: collectionView.frame.width/2)
+            return CGSize(width: 280, height: 420)
         }
         else if(collectionView == peoplesCollectionView)
         {
@@ -268,12 +275,12 @@ extension HomePageVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSo
     //TODO: Cell'lerin kenarlara olan uzaklıkları
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         if(collectionView == moviewCollectionView){
-            return UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3)
+
+            return UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3) //En üstteki hangisiydi bu üçünden?
         }
         else if(collectionView == peoplesCollectionView)
         {
             return UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3)
-            
         }
         else{
             return UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3)
@@ -281,4 +288,5 @@ extension HomePageVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSo
     }
     
 }
+
 

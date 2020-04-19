@@ -30,8 +30,8 @@ class MoviesCollectionViewCell: UICollectionViewCell {
         posterImage.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview()
-            make.height.equalToSuperview()
-            make.width.equalToSuperview()
+            make.height.equalTo(420)
+            make.width.equalTo(280)
             
         }
     }

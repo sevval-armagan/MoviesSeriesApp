@@ -52,3 +52,4 @@ class PeoplesCollectionViewCell: UICollectionViewCell {
     }
     
 }
+

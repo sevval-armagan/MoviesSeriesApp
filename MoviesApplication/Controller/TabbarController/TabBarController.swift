@@ -20,8 +20,8 @@ class TabBarController: UITabBarController {
         view.backgroundColor = UIColor(red: 0.149, green: 0.157, blue: 0.184, alpha: 1)
 
 
-        viewControllers = [   createTabBarController(title: "Home", imageName: "HomePage", vc: homePageVC),
-                              createTabBarController(title: "Movies ", imageName: "Movies", vc: moviesVC),
+        viewControllers = [   createTabBarController(title: "Home", imageName: "HomePage", vc: moviesVC),
+                              createTabBarController(title: "Movies ", imageName: "Movies", vc: homePageVC),
                               createTabBarController(title: "My Collection", imageName: "Collection", vc: myCollectionVC)]
     }
     
