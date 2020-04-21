@@ -30,6 +30,8 @@
 		168B2250243DED630073DDDD /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168B224F243DED630073DDDD /* TableViewCell.swift */; };
 		168B2252243E294D0073DDDD /* HomePageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168B2251243E294D0073DDDD /* HomePageModel.swift */; };
 		168B2254243E295D0073DDDD /* HomePageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168B2253243E295D0073DDDD /* HomePageViewModel.swift */; };
+		16DA7743244CA0CB00CFAD16 /* UPCarouselFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DA7742244CA0CA00CFAD16 /* UPCarouselFlowLayout.swift */; };
+		16DA7745244CA1D300CFAD16 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DA7744244CA1D300CFAD16 /* CollectionViewCell.swift */; };
 		5DAC875145F0E44F3A21D46C /* libPods-MoviesApplicationTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73F447AE2C37D107A147E1A4 /* libPods-MoviesApplicationTests.a */; };
 		70EA812B8D0DE8FEF64AB731 /* libPods-MoviesApplication-MoviesApplicationUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0032F3C7FB209D774FCFAB3A /* libPods-MoviesApplication-MoviesApplicationUITests.a */; };
 		BCAC37EF9AA685BF4DFF4AB6 /* libPods-MoviesApplication.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B436CE021BE1EE69CC9F086F /* libPods-MoviesApplication.a */; };
@@ -83,6 +85,8 @@
 		168B224F243DED630073DDDD /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		168B2251243E294D0073DDDD /* HomePageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageModel.swift; sourceTree = "<group>"; };
 		168B2253243E295D0073DDDD /* HomePageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageViewModel.swift; sourceTree = "<group>"; };
+		16DA7742244CA0CA00CFAD16 /* UPCarouselFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UPCarouselFlowLayout.swift; sourceTree = "<group>"; };
+		16DA7744244CA1D300CFAD16 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 		170345CC434E66A0C19ACC58 /* Pods-MoviesApplication-MoviesApplicationUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MoviesApplication-MoviesApplicationUITests.release.xcconfig"; path = "Target Support Files/Pods-MoviesApplication-MoviesApplicationUITests/Pods-MoviesApplication-MoviesApplicationUITests.release.xcconfig"; sourceTree = "<group>"; };
 		73F447AE2C37D107A147E1A4 /* libPods-MoviesApplicationTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MoviesApplicationTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8CC06192D168A11F40DA1D7D /* Pods-MoviesApplicationTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MoviesApplicationTests.release.xcconfig"; path = "Target Support Files/Pods-MoviesApplicationTests/Pods-MoviesApplicationTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -157,6 +161,7 @@
 		161BBCF4241EA56500E27D74 /* MoviesApplication */ = {
 			isa = PBXGroup;
 			children = (
+				16DA7742244CA0CA00CFAD16 /* UPCarouselFlowLayout.swift */,
 				1615C56C2433CF3000E6E127 /* ViewModel */,
 				161BBD53242CEF0A00E27D74 /* Controller */,
 				161BBD52242CEEFA00E27D74 /* View */,
@@ -226,6 +231,7 @@
 				1615C56A2432593800E6E127 /* PeoplesCollectionViewCell.swift */,
 				1615C5712434BA1100E6E127 /* GenresCollectionViewCell.swift */,
 				168B224F243DED630073DDDD /* TableViewCell.swift */,
+				16DA7744244CA1D300CFAD16 /* CollectionViewCell.swift */,
 			);
 			path = CollectionViewCell;
 			sourceTree = "<group>";
@@ -467,12 +473,14 @@
 				161BBD2A241EBE0A00E27D74 /* MyCollectionVC.swift in Sources */,
 				168B2250243DED630073DDDD /* TableViewCell.swift in Sources */,
 				168B2254243E295D0073DDDD /* HomePageViewModel.swift in Sources */,
+				16DA7743244CA0CB00CFAD16 /* UPCarouselFlowLayout.swift in Sources */,
 				1615C56B2432593800E6E127 /* PeoplesCollectionViewCell.swift in Sources */,
 				161BBD28241EBDEC00E27D74 /* MoviesVC.swift in Sources */,
 				168B2252243E294D0073DDDD /* HomePageModel.swift in Sources */,
 				161BBD302423851200E27D74 /* MoviesCollectionViewCell.swift in Sources */,
 				1615C57A2434BC0100E6E127 /* GenresModel.swift in Sources */,
 				1615C5782434BBE400E6E127 /* PeoplesModel.swift in Sources */,
+				16DA7745244CA1D300CFAD16 /* CollectionViewCell.swift in Sources */,
 				161BBCF6241EA56500E27D74 /* AppDelegate.swift in Sources */,
 				1615C5722434BA1100E6E127 /* GenresCollectionViewCell.swift in Sources */,
 				161BBD2C241EC33200E27D74 /* TabBarController.swift in Sources */,
