@@ -32,20 +32,6 @@ extension HomePageViewModel{
         self.delegate?.homePagerequestCompleted()
     
         
-        
-      /*  guard let gitUrl = URL(string: "https://api.themoviedb.org/3/trending/all/day?api_key=1218591a465b03f80cfebb0ef37a2275") else {return}
-        URLSession.shared.dataTask(with: gitUrl){ ( data,response , error) in
-           
-            do{
-                let decoder = JSONDecoder()
-                let gitData = try decoder.decode(HomePageModel.self, from: data!)
-                self.homePageArray.append(gitData)
-                
-            } catch let err{
-                print("error", err)
-            }
-        }.resume()
-        
-        self.delegate?.homePagerequestCompleted()*/
+    
     }
 }

@@ -8,8 +8,11 @@
 
 import UIKit
 import SnapKit
+import AVKit
+import AVFoundation
 // TODO: Açıklma(English)
 class MoviesVC: UIViewController{
+    
     
     let container = UIView()
     func setContainer(){
@@ -52,7 +55,17 @@ class MoviesVC: UIViewController{
             make.trailing.equalTo(container).offset(-10)
         }
     }
-    
+    let wv = UIWebView()
+    func setWv(){
+        container.addSubview(wv)
+        wv.backgroundColor = .black 
+        wv.snp.makeConstraints { (make) in
+            make.top.equalTo(container)
+            make.leading.equalTo(container)
+            make.trailing.equalTo(container)
+            make.height.equalTo(container)
+        }
+    }
     fileprivate let collectionView : UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -65,7 +78,7 @@ class MoviesVC: UIViewController{
     func setCollectionView(){
         container.addSubview(collectionView)
         collectionView.snp.makeConstraints { (make) -> Void in
-            make.width.equalTo(container)
+            collectionView.layer.cornerRadius = 10.0
             make.top.equalTo(newTrendLabel.snp.bottom).offset(10)
             make.leading.equalTo(container).offset(20)
             make.trailing.equalTo(container.snp.trailing).offset(-20)
@@ -73,7 +86,7 @@ class MoviesVC: UIViewController{
         }
     }
     
-   
+    
     func setupDelegate(){
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -86,8 +99,11 @@ class MoviesVC: UIViewController{
         setTodayLabel()
         setnewTrendLabel()
         setCollectionView()
+     
         setupDelegate()
         self.homePageViewModel.getData()
+        self.trailersViewModel.getData(id: String(id))
+        
         
         
         let flowLayout = UPCarouselFlowLayout()
@@ -108,6 +124,7 @@ class MoviesVC: UIViewController{
     }
     
     
+    
     fileprivate var currentPage: Int = 0 {
         didSet{
             print("şevval buraka aşık <3")
@@ -118,6 +135,7 @@ class MoviesVC: UIViewController{
         var pageSize = layout.itemSize
         if layout.scrollDirection == .vertical {
             pageSize.width += layout.minimumLineSpacing
+            
         } else{
             pageSize.height += layout.minimumLineSpacing
         }
@@ -129,13 +147,27 @@ class MoviesVC: UIViewController{
         homePageVM.delegate = self
         return homePageVM
     }()
+    
+    
+    lazy var trailersViewModel: TrailersViewModel = {
+        let trailersVM = TrailersViewModel()
+        trailersVM.delegate = self
+        return trailersVM
+    }()
 }
-extension MoviesVC: HomePageViewModelDelegate{
+
+var id = Int()
+extension MoviesVC: HomePageViewModelDelegate, TrailersViewModelDelegate{
     func homePagerequestCompleted() {
         DispatchQueue.main.async {
             
         }
     }
+    
+    func trailersRequestCompleted() {
+        print("d7as7da7sdas7dh7ashdas")
+    }
+    
 }
 
 
@@ -150,21 +182,57 @@ extension MoviesVC : UICollectionViewDelegate, UICollectionViewDataSource,UIColl
         
         let a = homePageViewModel.homePageArray[0].results![indexPath.row].poster_path!
         let url = URL(string: "https://image.tmdb.org/t/p/original" + a)
-        print(url)
         URLSession.shared.dataTask(with: url!){
             (data,response, error) in
             if error != nil {
                 print("error1")
                 return
             }
+            
+            id = self.homePageViewModel.homePageArray[0].results![indexPath.row].id!
             DispatchQueue.main.async {
                 cell.posterImage.image = UIImage(data: data!)
-                
             }
         }.resume()
+        
         return cell
     }
     
+    
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        guard let burak23 = homePageViewModel.homePageArray[0].results![indexPath.row].id else{return}
+        self.trailersViewModel.getData(id: String(burak23))
+        // tıklandığında yapılacaklar
+      
+        //   collectionView.deselectItem(at: indexPath, animated: true)
+        guard let sevval = try? trailersViewModel.trailersArray[0].results!.count else{return}
+        if(sevval == 0){
+            print("boş")
+            trailersViewModel.trailersArray.removeAll()
+        }
+        else{
+           
+            guard  let aaaa = trailersViewModel.trailersArray[0].results![0].key else {return}
+           
+           loadYoutube(videoID: aaaa)
+                  
+                   setWv()
+            
+       
+            trailersViewModel.trailersArray.removeAll()
+        }
+        print("sevval asdfdf")
+       
+    
+    }
+    func loadYoutube(videoID:String) {
+             guard
+                 let youtubeURL = URL(string: "https://www.youtube.com/embed/\(videoID)")
+                 else { return }
+             wv.loadRequest( URLRequest(url: youtubeURL) )
+         }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         return CGSize(width: 300, height: 450)
@@ -177,4 +245,5 @@ extension MoviesVC : UICollectionViewDelegate, UICollectionViewDataSource,UIColl
     
     
 }
+
 

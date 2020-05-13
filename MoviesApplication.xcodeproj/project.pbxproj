@@ -32,6 +32,8 @@
 		168B2254243E295D0073DDDD /* HomePageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168B2253243E295D0073DDDD /* HomePageViewModel.swift */; };
 		16DA7743244CA0CB00CFAD16 /* UPCarouselFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DA7742244CA0CA00CFAD16 /* UPCarouselFlowLayout.swift */; };
 		16DA7745244CA1D300CFAD16 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DA7744244CA1D300CFAD16 /* CollectionViewCell.swift */; };
+		16DA77712451C9B600CFAD16 /* TrailersModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DA77702451C9B600CFAD16 /* TrailersModel.swift */; };
+		16DA77732451CB6200CFAD16 /* TrailersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DA77722451CB6200CFAD16 /* TrailersViewModel.swift */; };
 		5DAC875145F0E44F3A21D46C /* libPods-MoviesApplicationTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73F447AE2C37D107A147E1A4 /* libPods-MoviesApplicationTests.a */; };
 		70EA812B8D0DE8FEF64AB731 /* libPods-MoviesApplication-MoviesApplicationUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0032F3C7FB209D774FCFAB3A /* libPods-MoviesApplication-MoviesApplicationUITests.a */; };
 		BCAC37EF9AA685BF4DFF4AB6 /* libPods-MoviesApplication.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B436CE021BE1EE69CC9F086F /* libPods-MoviesApplication.a */; };
@@ -87,6 +89,8 @@
 		168B2253243E295D0073DDDD /* HomePageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageViewModel.swift; sourceTree = "<group>"; };
 		16DA7742244CA0CA00CFAD16 /* UPCarouselFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UPCarouselFlowLayout.swift; sourceTree = "<group>"; };
 		16DA7744244CA1D300CFAD16 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
+		16DA77702451C9B600CFAD16 /* TrailersModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrailersModel.swift; sourceTree = "<group>"; };
+		16DA77722451CB6200CFAD16 /* TrailersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrailersViewModel.swift; sourceTree = "<group>"; };
 		170345CC434E66A0C19ACC58 /* Pods-MoviesApplication-MoviesApplicationUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MoviesApplication-MoviesApplicationUITests.release.xcconfig"; path = "Target Support Files/Pods-MoviesApplication-MoviesApplicationUITests/Pods-MoviesApplication-MoviesApplicationUITests.release.xcconfig"; sourceTree = "<group>"; };
 		73F447AE2C37D107A147E1A4 /* libPods-MoviesApplicationTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MoviesApplicationTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8CC06192D168A11F40DA1D7D /* Pods-MoviesApplicationTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MoviesApplicationTests.release.xcconfig"; path = "Target Support Files/Pods-MoviesApplicationTests/Pods-MoviesApplicationTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -132,6 +136,7 @@
 				1615C5732434BB5300E6E127 /* PeoplesViewModel.swift */,
 				1615C5752434BB6800E6E127 /* GenresViewModel.swift */,
 				168B2253243E295D0073DDDD /* HomePageViewModel.swift */,
+				16DA77722451CB6200CFAD16 /* TrailersViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -201,6 +206,7 @@
 				1615C5772434BBE400E6E127 /* PeoplesModel.swift */,
 				1615C5792434BC0100E6E127 /* GenresModel.swift */,
 				168B2251243E294D0073DDDD /* HomePageModel.swift */,
+				16DA77702451C9B600CFAD16 /* TrailersModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -484,7 +490,9 @@
 				161BBCF6241EA56500E27D74 /* AppDelegate.swift in Sources */,
 				1615C5722434BA1100E6E127 /* GenresCollectionViewCell.swift in Sources */,
 				161BBD2C241EC33200E27D74 /* TabBarController.swift in Sources */,
+				16DA77712451C9B600CFAD16 /* TrailersModel.swift in Sources */,
 				1615C56E2433CFB100E6E127 /* TrendsViewModel.swift in Sources */,
+				16DA77732451CB6200CFAD16 /* TrailersViewModel.swift in Sources */,
 				161BBD26241EBD5E00E27D74 /* HomePageVC.swift in Sources */,
 				1615C5742434BB5300E6E127 /* PeoplesViewModel.swift in Sources */,
 				161BBCF8241EA56500E27D74 /* SceneDelegate.swift in Sources */,
