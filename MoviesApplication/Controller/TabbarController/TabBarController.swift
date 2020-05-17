@@ -13,6 +13,7 @@ class TabBarController: UITabBarController {
     private let homePageVC = HomePageVC()
     private let moviesVC = MoviesVC()
     private let myCollectionVC = MyCollectionVC()
+    private let segmentedVC = SegmentedVC()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,7 +22,7 @@ class TabBarController: UITabBarController {
 
 
         viewControllers = [   createTabBarController(title: "Home", imageName: "HomePage", vc: moviesVC),
-                              createTabBarController(title: "Movies ", imageName: "Movies", vc: homePageVC),
+                              createTabBarController(title: "Movies ", imageName: "Movies", vc: segmentedVC),
                               createTabBarController(title: "My Collection", imageName: "Collection", vc: myCollectionVC)]
     }
     

@@ -1,5 +1,5 @@
 //
-//  MoviesVC.swift
+//  HomePageVC.swift
 //  MoviesApplication
 //
 //  Created by Sevval Armagan on 15.03.2020.
@@ -8,241 +8,284 @@
 
 import UIKit
 import SnapKit
-import AVKit
-import AVFoundation
-// TODO: Açıklma(English)
-class MoviesVC: UIViewController{
+
+class HomePageVC: UIViewController {
     
+    lazy var trendsViewModel: TrendsViewModel = {
+        let trendsVM = TrendsViewModel()
+        trendsVM.delegate = self
+        return trendsVM
+        
+    }()
+    lazy var peoplesViewModel: PeoplesViewModel = {
+        let peoplesVM = PeoplesViewModel()
+        peoplesVM.delegate = self
+        return peoplesVM
+        
+    }()
+    
+    lazy var genresViewModel: GenresViewModel = {
+        let genresVM = GenresViewModel()
+        genresVM.delegate = self
+        return genresVM
+        
+    }()
+    
+    let scrollView = UIScrollView()
+    func setScrollView(){
+        view.addSubview(scrollView)
+        scrollView.snp.makeConstraints { (make) in
+            make.top.equalTo(view).offset(0)
+            make.leading.equalTo(view).offset(0)
+            make.trailing.equalTo(view).offset(0)
+            make.bottom.equalTo(view).offset(0)
+        }
+    }
     
     let container = UIView()
     func setContainer(){
-        view.addSubview(container)
+        container.backgroundColor = UIColor.green
+        scrollView.addSubview(container)
         container.snp.makeConstraints { (make) in
-            make.top.equalTo(view)
-            make.leading.equalTo(view)
-            make.trailing.equalTo(view)
-            //make.width.equalTo(view)
-            make.height.equalTo(view)
+            make.top.equalTo(scrollView.snp.top)
+            make.left.equalTo(scrollView)
+            make.width.equalTo(scrollView)
+            make.height.equalTo(1300)
+            make.bottom.equalTo(scrollView.snp.bottom).offset(-20)
         }
     }
     
-    
-    let todayLabel = UILabel()
-    func setTodayLabel() {
-        container.addSubview(todayLabel)
-        todayLabel.snp.makeConstraints { (make) -> Void  in
-            todayLabel.text = "Today"
-            todayLabel.textColor = .white
-            todayLabel.font = todayLabel.font.withSize(30)
-            make.height.equalTo(50)
-            make.top.equalTo(container).offset(95)
-            make.leading.equalTo(container).offset(10)
-            make.trailing.equalTo(container).offset(-10)
-        }
-    }
-    
-    
-    let newTrendLabel = UILabel()
-    func setnewTrendLabel() {
-        container.addSubview(newTrendLabel)
-        newTrendLabel.snp.makeConstraints { (make) -> Void  in
-            newTrendLabel.text = "New and Trending"
-            newTrendLabel.textColor = .lightGray
-            newTrendLabel.font = newTrendLabel.font.withSize(30)
-            make.height.equalTo(40)
-            make.top.equalTo(todayLabel.snp.bottom)
-            make.leading.equalTo(container).offset(10)
-            make.trailing.equalTo(container).offset(-10)
-        }
-    }
-    let wv = UIWebView()
-    func setWv(){
-        container.addSubview(wv)
-        wv.backgroundColor = .black 
-        wv.snp.makeConstraints { (make) in
-            make.top.equalTo(container)
-            make.leading.equalTo(container)
-            make.trailing.equalTo(container)
-            make.height.equalTo(container)
-        }
-    }
-    fileprivate let collectionView : UICollectionView = {
+    //moviesCollectionView
+    fileprivate let moviewCollectionView : UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: "cell")
-        return collectionView
+        layout.scrollDirection = .horizontal
+        let movieCView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        movieCView.translatesAutoresizingMaskIntoConstraints = false
+        movieCView.register(MoviesCollectionViewCell.self, forCellWithReuseIdentifier: "movieCell")
+        return movieCView
     }()
-    
-    func setCollectionView(){
-        container.addSubview(collectionView)
-        collectionView.snp.makeConstraints { (make) -> Void in
-            collectionView.layer.cornerRadius = 10.0
-            make.top.equalTo(newTrendLabel.snp.bottom).offset(10)
-            make.leading.equalTo(container).offset(20)
-            make.trailing.equalTo(container.snp.trailing).offset(-20)
-            make.bottom.equalTo(container.snp.bottom)
-        }
-    }
-    
     
     func setupDelegate(){
-        collectionView.delegate = self
-        collectionView.dataSource = self
+        moviewCollectionView.delegate = self
+        moviewCollectionView.dataSource = self
+        peoplesCollectionView.delegate = self
+        peoplesCollectionView.dataSource = self
+        genresCollectionView.delegate = self
+        genresCollectionView.dataSource = self
     }
     
+    //PeopleCollectionView
+    fileprivate let peoplesCollectionView : UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        let peopleCView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        peopleCView.translatesAutoresizingMaskIntoConstraints = false
+        peopleCView.register(PeoplesCollectionViewCell.self, forCellWithReuseIdentifier: "peopleCell")
+        return peopleCView
+    }()
     
+    //GenresCollectionView
+    fileprivate let genresCollectionView : UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        let genresCView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        genresCView.translatesAutoresizingMaskIntoConstraints = false
+        genresCView.register(GenresCollectionViewCell.self, forCellWithReuseIdentifier: "genresCell")
+        return genresCView
+    }()
+    
+    
+    let trendsLabel = UILabel()
+    let peopleLabel = UILabel()
+    let genresLabel = UILabel()
+    
+    func setTrendsLabel() {
+        container.addSubview(trendsLabel)
+        trendsLabel.snp.makeConstraints { (make) -> Void  in
+            trendsLabel.text = "Trends"
+            trendsLabel.textColor = .white
+            make.height.equalTo(45)
+            make.top.equalTo(container).offset(10)
+            make.leading.equalTo(container).offset(10)
+            make.trailing.equalTo(container).offset(-10)
+        }
+    }
+    func setPeoplesLabel(){
+        container.addSubview(peopleLabel)
+        peopleLabel.snp.makeConstraints { (make) -> Void in
+            peopleLabel.text = "Popular People"
+            peopleLabel.textColor = .white
+            make.width.equalTo(container)
+            make.height.equalTo(45)
+            make.topMargin.equalTo(moviewCollectionView.snp.bottom).offset(10)
+        }
+    }
+    
+    func setGenresLabel(){
+        container.addSubview(genresLabel)
+        genresLabel.snp.makeConstraints { (make) -> Void in
+            genresLabel.text = "Genres"
+            genresLabel.textColor = .white
+            make.width.equalTo(container)
+            make.height.equalTo(45)
+            make.topMargin.equalTo(peoplesCollectionView.snp.bottom).offset(10)
+        }
+    }
+    func setMoviesCollectionView(){
+        container.addSubview(moviewCollectionView)
+        moviewCollectionView.backgroundColor = .yellow
+        moviewCollectionView.snp.makeConstraints { (make) -> Void in
+            make.width.equalTo(container)
+            make.top.equalTo(trendsLabel.snp.bottom)
+            make.height.equalTo(430)
+        }
+    }
+    
+    func setPeoplesCollectionView(){
+        container.addSubview(peoplesCollectionView)
+        peoplesCollectionView.backgroundColor = .yellow
+        peoplesCollectionView.snp.makeConstraints { (make) -> Void in
+            make.width.equalTo(container)
+            make.top.equalTo(peopleLabel.snp.bottom)
+            make.height.equalTo(220)
+        }
+        
+    }
+    func setGenresCollectionView(){
+        container.addSubview(genresCollectionView)
+        genresCollectionView.backgroundColor = .yellow
+        genresCollectionView.snp.makeConstraints { (make) -> Void in
+            make.width.equalTo(container)
+            make.top.equalTo(genresLabel.snp.bottom)
+            make.height.equalTo(220)
+        }
+        
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
+        setScrollView()
         setContainer()
-        setTodayLabel()
-        setnewTrendLabel()
-        setCollectionView()
-     
         setupDelegate()
-        self.homePageViewModel.getData()
-        self.trailersViewModel.getData(id: String(id))
+        setTrendsLabel()
+        setMoviesCollectionView()
+        setPeoplesLabel()
+        setPeoplesCollectionView()
+        setGenresLabel()
+        setGenresCollectionView()
         
+        self.trendsViewModel.getData()
+        self.peoplesViewModel.getData22()
+        self.genresViewModel.getData()
         
-        
-        let flowLayout = UPCarouselFlowLayout()
-        flowLayout.itemSize = CGSize(width: UIScreen.main.bounds.size.width - 60.0, height: collectionView.frame.size.height)
-        flowLayout.scrollDirection = .vertical
-        flowLayout.sideItemScale = 0.8
-        flowLayout.sideItemAlpha = 1.0
-        flowLayout.spacingMode = .fixed(spacing: 5.0)
-        collectionView.collectionViewLayout = flowLayout
-        
-        
-        func scrollViewDidEndDecelerating(_ scrollView: UIScrollView){
-            let layout = self.collectionView.collectionViewLayout as! UPCarouselFlowLayout
-            let pageSide = (layout.scrollDirection == .vertical) ? self.pageSize.width : self.pageSize.height
-            let offset = (layout.scrollDirection == .vertical) ? scrollView.contentOffset.x : scrollView.contentOffset.y
-            currentPage = Int(floor(offset - pageSide / 2) / pageSide + 1)
-        }
     }
     
     
-    
-    fileprivate var currentPage: Int = 0 {
-        didSet{
-            print("şevval buraka aşık <3")
-        }
-    }
-    fileprivate var pageSize: CGSize{
-        let layout = self.collectionView.collectionViewLayout as! UPCarouselFlowLayout
-        var pageSize = layout.itemSize
-        if layout.scrollDirection == .vertical {
-            pageSize.width += layout.minimumLineSpacing
-            
-        } else{
-            pageSize.height += layout.minimumLineSpacing
-        }
-        return pageSize
-    }
-    
-    lazy var homePageViewModel: HomePageViewModel = {
-        let homePageVM = HomePageViewModel()
-        homePageVM.delegate = self
-        return homePageVM
-    }()
-    
-    
-    lazy var trailersViewModel: TrailersViewModel = {
-        let trailersVM = TrailersViewModel()
-        trailersVM.delegate = self
-        return trailersVM
-    }()
 }
 
-var id = Int()
-extension MoviesVC: HomePageViewModelDelegate, TrailersViewModelDelegate{
-    func homePagerequestCompleted() {
+//moviesCollecitonView viewmodel deki protocol sınıfa uyarlanması yani parse işlemi tamamlandığında reload yap.
+extension HomePageVC: TrendsViewModelDelegate,PeoplesViewModelDelegate,GenresViewModelDelegate{
+    func requestCompleted2() {
         DispatchQueue.main.async {
-            
+            self.peoplesCollectionView.reloadData()
         }
     }
     
-    func trailersRequestCompleted() {
-        print("d7as7da7sdas7dh7ashdas")
+    
+    
+    func requestCompleted() {
+        DispatchQueue.main.async {
+            self.moviewCollectionView.reloadData() 
+        }
     }
     
 }
 
-
-
-extension MoviesVC : UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
+//Collection View Extensions
+extension HomePageVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 20
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CollectionViewCell
-        
-        let a = homePageViewModel.homePageArray[0].results![indexPath.row].poster_path!
-        let url = URL(string: "https://image.tmdb.org/t/p/original" + a)
-        URLSession.shared.dataTask(with: url!){
-            (data,response, error) in
-            if error != nil {
-                print("error1")
-                return
-            }
-            
-            id = self.homePageViewModel.homePageArray[0].results![indexPath.row].id!
-            DispatchQueue.main.async {
-                cell.posterImage.image = UIImage(data: data!)
-            }
-        }.resume()
-        
-        return cell
-    }
-    
-    
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        guard let burak23 = homePageViewModel.homePageArray[0].results![indexPath.row].id else{return}
-        self.trailersViewModel.getData(id: String(burak23))
-        // tıklandığında yapılacaklar
-      
-        //   collectionView.deselectItem(at: indexPath, animated: true)
-        guard let sevval = try? trailersViewModel.trailersArray[0].results!.count else{return}
-        if(sevval == 0){
-            print("boş")
-            trailersViewModel.trailersArray.removeAll()
+        if(collectionView == moviewCollectionView){
+            return trendsViewModel.array[0].results.count
+        }
+        else if(collectionView == peoplesCollectionView)
+        {
+            return 10//peoplesViewModel.array[0].results!.count
         }
         else{
-           
-            guard  let aaaa = trailersViewModel.trailersArray[0].results![0].key else {return}
-           
-           loadYoutube(videoID: aaaa)
-                  
-                   setWv()
-            
-       
-            trailersViewModel.trailersArray.removeAll()
+            return 10
         }
-        print("sevval asdfdf")
-       
-    
-    }
-    func loadYoutube(videoID:String) {
-             guard
-                 let youtubeURL = URL(string: "https://www.youtube.com/embed/\(videoID)")
-                 else { return }
-             wv.loadRequest( URLRequest(url: youtubeURL) )
-         }
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        return CGSize(width: 300, height: 450)
+    }
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if(collectionView == moviewCollectionView){
+            let moviesCell = collectionView.dequeueReusableCell(withReuseIdentifier: "movieCell", for: indexPath) as! MoviesCollectionViewCell
+            moviesCell.backgroundColor = .green
+            let url = URL(string: "https://image.tmdb.org/t/p/original" + trendsViewModel.array[0].results[indexPath.row].poster_path!)
+            URLSession.shared.dataTask(with: url!){
+                (data,response,error) in
+                if error != nil{
+                    print("error")
+                    return
+                }
+                DispatchQueue.main.async {
+                    moviesCell.posterImage.image = UIImage(data : data!)
+                }
+            }.resume()
+            return moviesCell
+        }
+        else if(collectionView == peoplesCollectionView)
+        {
+            let peopleCell = collectionView.dequeueReusableCell(withReuseIdentifier: "peopleCell", for: indexPath) as! PeoplesCollectionViewCell
+            
+          /*  let url = URL(string: "https://image.tmdb.org/t/p/original" + peoplesViewModel.array[0].results![indexPath.row].poster_path!)
+            URLSession.shared.dataTask(with: url!){
+                (data,response,error) in
+                if error != nil{
+                    print("error")
+                    return
+                }
+                DispatchQueue.main.async {
+                    peopleCell.peopleImage.image = UIImage(data: data!)
+                }
+            }.resume()*/
+            
+            return peopleCell
+            
+        }
+        else{
+            let genresCell = collectionView.dequeueReusableCell(withReuseIdentifier: "genresCell", for: indexPath) as! GenresCollectionViewCell
+            return genresCell
+        }
+    }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        if(collectionView == moviewCollectionView){
+            return CGSize(width: 280, height: 420)
+        }
+        else if(collectionView == peoplesCollectionView)
+        {
+            return CGSize(width: collectionView.frame.width/2.5, height: collectionView.frame.width/2)
+        }
+        else{
+            return CGSize(width: collectionView.frame.width/2.5, height: collectionView.frame.width/2)
+        }
+        
     }
     
     //TODO: Cell'lerin kenarlara olan uzaklıkları
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3)
+        if(collectionView == moviewCollectionView){
+
+            return UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3) //En üstteki hangisiydi bu üçünden?
+        }
+        else if(collectionView == peoplesCollectionView)
+        {
+            return UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3)
+        }
+        else{
+            return UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3)
+        }
     }
-    
     
 }
 
