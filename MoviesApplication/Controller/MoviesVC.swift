@@ -44,7 +44,7 @@ class HomePageVC: UIViewController {
     
     let container = UIView()
     func setContainer(){
-        container.backgroundColor = UIColor.green
+       // container.backgroundColor = UIColor.green
         scrollView.addSubview(container)
         container.snp.makeConstraints { (make) in
             make.top.equalTo(scrollView.snp.top)
@@ -133,7 +133,7 @@ class HomePageVC: UIViewController {
     }
     func setMoviesCollectionView(){
         container.addSubview(moviewCollectionView)
-        moviewCollectionView.backgroundColor = .yellow
+        moviewCollectionView.backgroundColor = .black
         moviewCollectionView.snp.makeConstraints { (make) -> Void in
             make.width.equalTo(container)
             make.top.equalTo(trendsLabel.snp.bottom)

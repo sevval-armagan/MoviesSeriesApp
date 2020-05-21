@@ -19,8 +19,12 @@ class TrendsViewModel{
     var delegate: TrendsViewModelDelegate?
 }
 
+class SeriesViewModel{
+    var array1 = [SeriesModel]()
+    var delegate: TrendsViewModelDelegate?
+}
 
-var array = [String]()
+
 
 extension TrendsViewModel{
     func getData(){
@@ -39,7 +43,28 @@ extension TrendsViewModel{
        
         
     }
- 
+    }
+
+extension SeriesViewModel{
+    func getDataSeries(){
+           
+           var request = URLRequest(url: URL(string: "https://api.themoviedb.org/3/discover/tv?api_key=1218591a465b03f80cfebb0ef37a2275&language=en-US&sort_by=popularity.desc&page=1&include_null_first_air_dates=false")!)
+                         request.httpMethod = "GET"
+                         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+                  guard let data = try? Data(contentsOf: request.url!)else {return}
+                         
+                         do {
+                          guard let json = try? JSONDecoder().decode(SeriesModel.self, from: data) else{return}
+                              array1.append(json)
+                         }
+                         catch{
+                          print("Error JsonDecode")
+                  }
+                  
+              }
 }
+    
+   
+
 
 

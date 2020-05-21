@@ -21,7 +21,7 @@ class MoviesCollectionViewCell: UICollectionViewCell {
     
     let posterImage : UIImageView = {
         let image = UIImageView()
-        image.backgroundColor = UIColor.red
+        image.backgroundColor = .black
         return image
     }()
     

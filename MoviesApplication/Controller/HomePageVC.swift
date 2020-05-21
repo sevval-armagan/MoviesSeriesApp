@@ -67,40 +67,20 @@ class MoviesVC: UIViewController, WKUIDelegate, WKNavigationDelegate{
     }()
 
       fileprivate func setToolBar() {
-        let screenWidth = self.view.bounds.width
+      
         let backButton = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(goBack))
         self.navigationItem.leftBarButtonItem = backButton
-        /*let toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: screenWidth, height: 44))
-        toolBar.isTranslucent = false
-        toolBar.translatesAutoresizingMaskIntoConstraints = false
-        toolBar.items = [backButton]
-        wv.addSubview(toolBar)*/
-    // Constraints
-       
+        
+
       }
       @objc private func goBack() {
-        if wv.canGoBack {
-          wv.goBack()
-            
-        } else {
-          self.dismiss(animated: true, completion: nil)
-            _ = navigationController?.popToRootViewController(animated: true)
-        }
+         wv.removeFromSuperview()
       }
-   /* let backBarItem = UIBarButtonItem(title: "Backward", style: .plain, target: self,
-    action: #selector(backAction))
-    
-    @objc func backAction() {
-        if wv.canGoBack {
-            wv.goBack()
-        }
-    }
-    func setupNavItem() {
-        self.navigationItem.leftBarButtonItem = backBarItem
-    }*/
+  
     func setWv(){
         container.addSubview(wv)
         wv.sendSubviewToBack(container)
+           setToolBar()
         wv.backgroundColor = .black 
         wv.snp.makeConstraints { (make) in
             make.top.equalTo(container)
@@ -153,7 +133,7 @@ class MoviesVC: UIViewController, WKUIDelegate, WKNavigationDelegate{
         self.trailersViewModel.getData(id: String(id))
       //  setupNavItem()
          wv.navigationDelegate = self
-        setToolBar()
+     
         
         let flowLayout = UPCarouselFlowLayout()
         flowLayout.itemSize = CGSize(width: UIScreen.main.bounds.size.width - 60.0, height: collectionView.frame.size.height)
